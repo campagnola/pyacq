@@ -167,8 +167,8 @@ class Node(object):
     def stop(self):
         """Stop the Node (see `start()`).
         """
-        assert self.running(),\
-            'Cannot stop Node {} : the Node is not running'.format(self.name)
+        if not self.running():
+            return
 
         self._stop()
         with self.lock:
@@ -177,9 +177,10 @@ class Node(object):
     def close(self):
         """Close the Node.
         
-        This causes all input/output connections to be closed. Nodes must
-        be stopped before they can be closed.
+        This causes all input/output connections to be closed.
         """
+        if self.running():
+            self.stop()
         assert not self.running(),\
                 'Cannot close Node {} : the Node is running'.format(self.name)
         with self.lock:
