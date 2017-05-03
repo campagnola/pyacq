@@ -299,6 +299,9 @@ class RPCClient(object):
             msg = self.serializer.loads(msg)
         except zmq.error.Again:
             raise TimeoutError("Timeout waiting for Future result.")
+        except zmq.error.ContextTerminated:
+            self.close()
+            return
         
         self.process_msg(msg)
 
