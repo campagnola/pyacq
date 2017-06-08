@@ -5,6 +5,7 @@
 import sys
 import os
 import time
+import timeit
 import weakref
 import socket
 import concurrent.futures
@@ -18,6 +19,7 @@ from .serializer import all_serializers
 from .proxy import ObjectProxy
 from .server import RPCServer, QtRPCServer
 from . import log
+from ..py_compat import TimeoutError
 
 
 logger = logging.getLogger(__name__)
@@ -365,8 +367,8 @@ class RPCClient(object):
             return
         self.establishing_connect = True
         try:
-            start = time.time()
-            while time.time() < start + timeout:
+            start = timeit.default_timer()
+            while timeit.default_timer() < start + timeout:
                 fut = self.ping(sync='async')
                 try:
                     result = fut.result(timeout=0.1)
@@ -395,13 +397,13 @@ class RPCClient(object):
         timeout : float
             Maximum time (seconds) to wait for a response.
         """
-        start = time.perf_counter()
+        start = timeit.default_timer()
         while not future.done():
             # wait patiently with blocking calls.
             if timeout is None:
                 itimeout = None
             else:
-                dt = time.perf_counter() - start
+                dt = timeit.default_timer() - start
                 itimeout = timeout - dt
                 if itimeout < 0:
                     raise TimeoutError("Timeout waiting for Future result.")
@@ -546,11 +548,11 @@ class RPCClient(object):
     def measure_clock_diff(self):
         """Measure the clock offset between this host and the remote host.
         """
-        rcounter = self._import('time').perf_counter
+        rcounter = self._import('time').time
         ltimes = []
         rtimes = []
         for i in range(10):
-            ltimes.append(time.perf_counter())
+            ltimes.append(time.time())
             rtimes.append(rcounter())
         ltimes = np.array(ltimes)
         rtimes = np.array(rtimes[:-1])

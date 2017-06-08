@@ -9,6 +9,7 @@ import zmq.utils.monitor
 import numpy as np
 import pyqtgraph as pg
 from pyqtgraph.Qt import QtCore, QtGui
+from pyacq.core.py_compat import TimeoutError
 
 
 # Set up nice logging for tests:

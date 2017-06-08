@@ -15,6 +15,7 @@ from pyqtgraph.Qt import QtCore
 
 from .client import RPCClient
 from .log import get_logger_address, LogSender
+from ..py_compat import TimeoutError
 
 
 logger = logging.getLogger(__name__)

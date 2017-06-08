@@ -5,6 +5,7 @@
 import numpy as np
 import collections
 import logging
+import six
 
 from ..core import Node, register_node_type, ThreadPollInput
 from pyqtgraph.Qt import QtCore, QtGui
@@ -86,7 +87,7 @@ class PyAudio(Node):
                     output_channels=self.nb_channel, output_device=self.output_device_index)
             except ValueError as err:
                 msg = 'Output not supported: channels={} samplerate={} device_id={}'.format(self.nb_channel, self.sample_rate, self.output_device_index)
-                raise ValueError(msg) from err
+                six.raise_from(ValueError(msg), err)
         
         if self.input_device_index is not None:
             try:
@@ -94,7 +95,7 @@ class PyAudio(Node):
                     input_channels=self.nb_channel, input_device=self.input_device_index)
             except ValueError as err:
                 msg = 'Input not supported: channels={} samplerate={} device_id={}'.format(self.nb_channel, self.sample_rate, self.input_device_index)
-                raise ValueError(msg) from err
+                six.raise_from(ValueError(msg), err)
 
         self.output.spec['shape'] = (chunksize, self.nb_channel)
         #~ self.output.spec['shape'] = (-1, self.nb_channel)

@@ -2,8 +2,11 @@
 # Copyright (c) 2016, French National Center for Scientific Research (CNRS)
 # Distributed under the (new) BSD License. See LICENSE for more info.
 
-import faulthandler
-faulthandler.enable()
+try:
+    import faulthandler
+    faulthandler.enable()
+except ImportError:
+    pass
 
 from .version import version as __version__
 from .core import *

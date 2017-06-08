@@ -8,6 +8,7 @@ import logging
 from .rpc import RPCServer, RPCClient, ProcessSpawner
 from .host import Host
 from .rpc import log as rpc_log
+from .py_compat import TimeoutError
 
 
 logger = logging.getLogger(__name__)
