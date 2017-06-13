@@ -213,7 +213,8 @@ class ProcessSpawner(object):
 class PipePoller(threading.Thread):
     
     def __init__(self, pipe, callback, prefix):
-        threading.Thread.__init__(self, daemon=True)
+        threading.Thread.__init__(self)
+        self.daemon = True
         self.pipe = pipe
         self.callback = callback
         self.prefix = prefix

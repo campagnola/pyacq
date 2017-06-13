@@ -34,7 +34,8 @@ def test_async_poingrate(cli, dur=2.0, buffer=500):
 # thread, inproc
 print("=========== inproc to thread ============")
 server = rpc.RPCServer('inproc://testserver')
-thread = threading.Thread(target=server.run_forever, daemon=True)
+thread = threading.Thread(target=server.run_forever)
+thread.daemon = True
 thread.start()
 
 cli = rpc.RPCClient(server.address)
@@ -47,7 +48,8 @@ cli.close_server()
 # thread, tcp
 print("=========== tcp to thread ============")
 server = rpc.RPCServer('tcp://127.0.0.1:*')
-thread = threading.Thread(target=server.run_forever, daemon=True)
+thread = threading.Thread(target=server.run_forever)
+thread.daemon = True
 thread.start()
 
 cli = rpc.RPCClient(server.address)

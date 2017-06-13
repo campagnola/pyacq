@@ -8,13 +8,13 @@ import os
 import traceback
 import socket
 import threading
-import builtins
 import zmq
 import logging
 import numpy as np
 import atexit
 from pyqtgraph.Qt import QtCore, QtGui
 
+from ..py_compat import builtins
 from .serializer import all_serializers
 from .proxy import ObjectProxy
 from .timer import Timer

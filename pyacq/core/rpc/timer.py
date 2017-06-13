@@ -5,6 +5,7 @@ from .proxy import ObjectProxy
 import logging
 logger = logging.getLogger()
 
+
 class Timer(object):
     """Timer for making scheduled callbacks in a new thread.
     
@@ -22,7 +23,8 @@ class Timer(object):
         Whether to immediately start the timer.
     """
     def __init__(self, callback, interval, limit=None, start=False):
-        self.thread = threading.Thread(target=self._run, daemon=True)
+        self.thread = threading.Thread(target=self._run)
+        self.thread.daemon = True
         self.callback = callback
         self.interval = float(interval)
         self.limit = limit

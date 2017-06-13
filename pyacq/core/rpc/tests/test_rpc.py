@@ -68,7 +68,8 @@ def test_rpc():
     server1 = RPCServer()
     server1['test_class'] = TestClass
     server1['my_object'] = TestClass('obj1')
-    serve_thread = threading.Thread(target=server1.run_forever, daemon=True)
+    serve_thread = threading.Thread(target=server1.run_forever)
+    serve_thread.daemon = True
     serve_thread.start()
     
     client = RPCClient.get_client(server1.address)
@@ -218,7 +219,8 @@ def test_rpc():
     r1 = obj.test(obj)
     server2 = RPCServer()
     server2['test_class'] = TestClass
-    serve_thread2 = threading.Thread(target=server2.run_forever, daemon=True)
+    serve_thread2 = threading.Thread(target=server2.run_forever)
+    serve_thread2.daemon = True
     serve_thread2.start()
     
     client2 = RPCClient(server2.address)
@@ -296,7 +298,8 @@ def test_qt_rpc():
     # GUI thread.
     class TestThread(threading.Thread):
         def __init__(self, addr):
-            threading.Thread.__init__(self, daemon=True)
+            threading.Thread.__init__(self)
+            self.daemon = True
             self.addr = addr
             self.done = False
             self.lock = threading.Lock()

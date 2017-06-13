@@ -195,7 +195,8 @@ class LogServer(threading.Thread):
         The python logger that should handle incoming messages.
     """
     def __init__(self, logger, address='tcp://127.0.0.1:*', sort=True):
-        threading.Thread.__init__(self, daemon=True)
+        threading.Thread.__init__(self)
+        self.daemon = True
         self.logger = logger
         self.socket = zmq.Context.instance().socket(zmq.PULL)
         self.socket.linger = 1000  # don't let socket deadlock when exiting
